@@ -33,3 +33,5 @@ ajax({
 | before | function(){} | 发送之前执行的函数 | function |
 | error | function(){} | 请求报错执行的函数 | function |
 | success | function(){} | 请求成功的回调函数 | function |
+
+详细的说明，请看[这里](http://littleblack.cc/2016/05/04/Javascript/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AAAjax/)
