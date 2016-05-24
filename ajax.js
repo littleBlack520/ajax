@@ -38,7 +38,7 @@ function ajax(options) {
             document.body.removeChild(script);
             success(data);
         }
-        script.src = url +  (url.indexOf("?") > -1 ? "" : "?") + "callback=" + callback;
+        script.src = url +  (url.indexOf("?") > -1 ? "&" : "?") + "callback=" + callback;
         script.type = "text/javascript";
         document.body.appendChild(script);
         setTime(callback, script);
