@@ -30,7 +30,7 @@
                     }
                 }
                 return arr;
-            };
+            }
             //设置字符串的遍码，字符串的格式为：a=1&b=2;
             function setStrData(data) {
                 var arr = data.split("&");
@@ -59,13 +59,13 @@
         function createJsonp() {
             var script = document.createElement("script"),
                 timeName = new Date().getTime() + Math.round(Math.random() * 1000),
-                callback = "JSONP_" + timeName;
+                callback = options.callbackName ? options.callbackName : ("JSONP_" + timeName); // 如果没有提供JSONP的callback名称，则使用随机名称
 
             window[callback] = function(data) {
                 clearTimeout(timeout_flag);
                 document.body.removeChild(script);
                 success(data);
-            }
+            };
             script.src = url + (url.indexOf("?") > -1 ? "&" : "?") + "callback=" + callback;
             script.type = "text/javascript";
             document.body.appendChild(script);
@@ -148,7 +148,8 @@
             contentType = options.contentType || "", //请求头
             dataType = options.dataType || "", //请求的类型
             async = options.async === undefined ? true : options.async, //是否异步，默认为true.
-            timeOut = options.timeOut, //超时时间。 
+            timeOut = options.timeOut, //超时时间。
+            callbackName = options.callbackName || "", // 自定义JSONP的calkback名称
             before = options.before || function() {}, //发送之前执行的函数
             error = options.error || function() {}, //错误执行的函数
             success = options.success || function() {}; //请求成功的回调函数
