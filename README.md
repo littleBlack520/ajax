@@ -8,7 +8,7 @@ ajax({
     url:"", //添加自己的接口链接
     timeOut:5000,
     before:function(){
-      console.log("before");  
+      console.log("before");
     },
     success:function(str){
         console.log(str);
@@ -30,6 +30,7 @@ ajax({
 | dataType | "" | 请求的类型 | jsonp |
 | async | true | 是否异步 | blooean |
 | timeOut | undefined | 超时时间 | number |
+| callbackName | "" | JSONP的callback函数名称 | string |
 | before | function(){} | 发送之前执行的函数 | function |
 | error | function(){} | 请求报错执行的函数 | function |
 | success | function(){} | 请求成功的回调函数 | function |
