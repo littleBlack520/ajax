@@ -129,8 +129,15 @@
                         clearTimeout(timeout_flag);
                     }
                     if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
-
-                        success(xhr.responseText);
+                        // 判断响应数据的MIME类型，采用对应的解码方式
+                        var type = xhr.getResponseHeader("Content-Type");
+                        if (type.indexOf("xml") != -1 && xhr.responseXML) {
+                          success(xhr.responseXML);
+                        } else if (type === "application/json") {
+                          success(JSON.parse(xhr.responseText));
+                        } else {
+                          success(xhr.responseText);
+                        }
                     } else {
                         error(xhr.status, xhr.statusText);
                     }
