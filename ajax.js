@@ -133,7 +133,7 @@
                         var type = xhr.getResponseHeader("Content-Type");
                         if (type.indexOf("xml") != -1 && xhr.responseXML) {
                           success(xhr.responseXML);
-                        } else if (type === "application/json") {
+                        } else if (type.match(/^application\/json/)) {
                           success(JSON.parse(xhr.responseText));
                         } else {
                           success(xhr.responseText);
