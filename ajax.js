@@ -25,8 +25,12 @@
                     }
                 } else if (Object.prototype.toString.call(data) == '[object Object]') {
                     for (var key in data) {
-                        value = data[key];
-                        arr = arr.concat(encodeData(key, value, parentName));
+                        if (data.hasOwnProperty(key)) { // 排除原型中的属性
+                            if(typeof data[key] !== 'function') { // 排除函数类型的属性
+                                value = data[key];
+                                arr = arr.concat(encodeData(key, value, parentName));
+                            }
+                        }
                     }
                 }
                 return arr;
