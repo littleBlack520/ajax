@@ -1,4 +1,5 @@
 (function(window,undefined) {
+    // 定义Ajax类
     function ajax(options) {
 
         //编码数据
@@ -143,7 +144,9 @@
                           success(xhr.responseText);
                         }
                     } else {
-                        error(xhr.status, xhr.statusText);
+                      // 将原始数据也传入
+                      // 最后一个参数只针对JSON数据类型有效
+                        error(xhr.status, xhr.statusText, JSON.parse(xhr.responseText));
                     }
                 }
             };
