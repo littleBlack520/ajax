@@ -163,7 +163,7 @@
             dataType = options.dataType || "", //请求的类型
             async = options.async === undefined ? true : options.async, //是否异步，默认为true.
             timeOut = options.timeOut, //超时时间。
-            callbackName = options.callbackName || "", // 自定义JSONP的calkback名称
+            callbackName = options.callbackName || "", // 自定义JSONP的callback名称
             before = options.before || function() {}, //发送之前执行的函数
             error = options.error || function() {}, //错误执行的函数
             success = options.success || function() {}; //请求成功的回调函数
