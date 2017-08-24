@@ -53,7 +53,7 @@
                 } else if (typeof data === "object") {
                     data = setObjData(data);
                 }
-                data = data.join("&").replace("/%20/g", "+");
+                data = data.join("&").replace(/%20/g, "+");
                 //若是使用get方法或JSONP，则手动添加到URL中
                 if (type === "get" || dataType === "jsonp") {
                     url += url.indexOf("?") > -1 ? (url.indexOf("=") > -1 ? "&" + data : data) : "?" + data;
