@@ -1,0 +1,27 @@
+{
+  "name": "ajax",
+  "version": "1.0.0",
+  "description": "a simple ajax library",
+  "main": "ajax.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaoshu883/ajax.git"
+  },
+  "keywords": [
+    "ajax"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gaoshu883/ajax/issues"
+  },
+  "homepage": "https://github.com/gaoshu883/ajax#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.3.0",
+    "gulp-uglify": "^3.0.0"
+  }
+}
