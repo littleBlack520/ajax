@@ -1,4 +1,5 @@
 (function(window,undefined) {
+    // 定义Ajax类
     function ajax(options) {
 
         //编码数据
@@ -25,12 +26,16 @@
                     }
                 } else if (Object.prototype.toString.call(data) == '[object Object]') {
                     for (var key in data) {
-                        value = data[key];
-                        arr = arr.concat(encodeData(key, value, parentName));
+                        if (data.hasOwnProperty(key)) { // 排除原型中的属性
+                            if(typeof data[key] !== 'function') { // 排除函数类型的属性
+                                value = data[key];
+                                arr = arr.concat(encodeData(key, value, parentName));
+                            }
+                        }
                     }
                 }
                 return arr;
-            };
+            }
             //设置字符串的遍码，字符串的格式为：a=1&b=2;
             function setStrData(data) {
                 var arr = data.split("&");
@@ -48,7 +53,7 @@
                 } else if (typeof data === "object") {
                     data = setObjData(data);
                 }
-                data = data.join("&").replace("/%20/g", "+");
+                data = data.join("&").replace(/%20/g, "+");
                 //若是使用get方法或JSONP，则手动添加到URL中
                 if (type === "get" || dataType === "jsonp") {
                     url += url.indexOf("?") > -1 ? (url.indexOf("=") > -1 ? "&" + data : data) : "?" + data;
@@ -59,13 +64,13 @@
         function createJsonp() {
             var script = document.createElement("script"),
                 timeName = new Date().getTime() + Math.round(Math.random() * 1000),
-                callback = "JSONP_" + timeName;
+                callback = options.callbackName ? options.callbackName : ("JSONP_" + timeName); // 如果没有提供JSONP的callback名称，则使用随机名称
 
             window[callback] = function(data) {
                 clearTimeout(timeout_flag);
                 document.body.removeChild(script);
                 success(data);
-            }
+            };
             script.src = url + (url.indexOf("?") > -1 ? "&" : "?") + "callback=" + callback;
             script.type = "text/javascript";
             document.body.appendChild(script);
@@ -129,10 +134,19 @@
                         clearTimeout(timeout_flag);
                     }
                     if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
-
-                        success(xhr.responseText);
+                        // 判断响应数据的MIME类型，采用对应的解码方式
+                        var type = xhr.getResponseHeader("Content-Type");
+                        if (type.indexOf("xml") != -1 && xhr.responseXML) {
+                          success(xhr.responseXML);
+                        } else if (type.match(/^application\/json/)) {
+                          success(JSON.parse(xhr.responseText));
+                        } else {
+                          success(xhr.responseText);
+                        }
                     } else {
-                        error(xhr.status, xhr.statusText);
+                      // 将原始数据也传入
+                      // 最后一个参数只针对JSON数据类型有效
+                        error(xhr.status, xhr.statusText, JSON.parse(xhr.responseText));
                     }
                 }
             };
@@ -148,7 +162,8 @@
             contentType = options.contentType || "", //请求头
             dataType = options.dataType || "", //请求的类型
             async = options.async === undefined ? true : options.async, //是否异步，默认为true.
-            timeOut = options.timeOut, //超时时间。 
+            timeOut = options.timeOut, //超时时间。
+            callbackName = options.callbackName || "", // 自定义JSONP的callback名称
             before = options.before || function() {}, //发送之前执行的函数
             error = options.error || function() {}, //错误执行的函数
             success = options.success || function() {}; //请求成功的回调函数
